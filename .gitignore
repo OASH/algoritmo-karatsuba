@@ -1,6 +1,187 @@
-*.class
 
-# Package Files #
-*.jar
-*.war
-*.ear
+package karatsuba;
+import java.math.*;
+import java.math.BigInteger;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+/**OMAR ARLEY SOGAMOSO HEREDIA
+ *
+ * @author INGOASH
+ */
+public class Karatsuba extends JFrame implements ActionListener,ChangeListener {
+
+public static JFrame  calculadora;
+public static JLabel display= new JLabel("Digite los números y presione el botón (Karatsuba)  *Desarrollado por Omar Sogamoso");
+public static JTextField ingreso1 =new JTextField("NUMERO");
+public static JTextField ingreso2  =new JTextField("NUMERO");
+public static JCheckBox check1=new JCheckBox("(-)");
+public static JCheckBox check2=new JCheckBox("(-)");
+public JTextField texto;
+public static JButton boton;
+public int i1,i2,i3,i4,i5,k,n;
+public BigInteger a=BigInteger.valueOf(400);
+public BigInteger b=BigInteger.valueOf(400);
+public BigInteger a1=BigInteger.valueOf(800);
+public BigInteger b1=BigInteger.valueOf(800);
+public BigInteger a0=BigInteger.valueOf(400);
+public BigInteger b0=BigInteger.valueOf(400);
+public BigInteger a11=BigInteger.valueOf(800);
+public BigInteger b11=BigInteger.valueOf(800);
+public BigInteger p0=BigInteger.valueOf(400);
+public BigInteger p1=BigInteger.valueOf(400);
+public BigInteger p2=BigInteger.valueOf(800);
+public BigInteger aux=BigInteger.valueOf(800);
+public BigInteger total=BigInteger.valueOf(1800);
+public BigInteger exp=BigInteger.valueOf(1800);
+ public BigInteger c,c1;
+public String s1,s2,s3,s4,sa,sb,sig;
+
+    public static void main(String[] args) {
+       new Karatsuba();
+   }
+       
+      public Karatsuba (){
+          
+        calculadora =  new JFrame ("KARATSUBA");
+        boton = new JButton("Karatsuba");
+        calculadora.setSize(500,230);
+        calculadora.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        boton.setBounds(110,50, 100, 20);
+        boton.setBackground(Color.red);
+        ingreso1.setBounds(70, 130, 250, 20);
+        ingreso2.setBounds(70, 160, 250, 20);
+        check1.setBounds(20,125,50,20);
+        check2.setBounds(20,155,50,20);
+        calculadora.add(boton);
+        calculadora.add(check1);
+        calculadora.add(check2);
+        calculadora.add(ingreso1);
+        calculadora.add(ingreso2);
+        calculadora.add(display);
+        display.setVisible(true);
+        ingreso1.setVisible(true);
+        ingreso2.setVisible(true);
+        check1.setVisible(true);
+        check2.setVisible(true);
+        boton.setVisible(true); 
+        boton.addActionListener(this); 
+        check1.addChangeListener(this);
+        check2.addChangeListener(this);
+        calculadora.setResizable(true);
+        calculadora.setVisible(true);
+        
+    }
+
+    private void multsencilla() {
+   c=a.multiply(b);
+   
+   s3=(c.toString());
+   display.setText("("+s1+ "...)("+s2+"...)  = "+sig+s3);
+        System.out.println("paso");
+    }
+     private void multkaratsuba() {
+         
+       i3=(Math.abs(i1-i2));
+       i4=(int)Math.pow(10, i3);
+
+       if(i1<i2){
+          a1=a.multiply(BigInteger.valueOf(i4));
+          b1=b;
+          n=i2;
+         }else{
+       if(i1>i2){
+        b1=b.multiply(BigInteger.valueOf(i4)); 
+        a1=a;
+        n=i1;
+       }else{
+       if(i1==i2){
+           a1=a;
+           b1=b;
+           n=i1;
+       }
+       }
+       }
+         i1=n%2;
+         if(i1!=0){
+             a=a1.multiply(BigInteger.valueOf(10));
+             b=b1.multiply(BigInteger.valueOf(10));
+             k=(n+1)/2;
+             i1=Math.abs(n-1-2*k-i3);
+         }else{
+             a=a1;
+             b=b1;
+            k=n/2;
+            i1=Math.abs(n-2*k-i3);
+         }
+         
+         sa=a.toString();
+         s3=sa.substring(k,2*k);
+         s4=sa.substring(0, k);
+         a0=new BigInteger(s3.toString());
+         a1=new BigInteger(s4.toString());
+         
+         sb=b.toString();
+         s3=sb.substring(k,2*k);
+         s4=sb.substring(0, k);
+         b0=new BigInteger(s3.toString());
+         b1=new BigInteger(s4.toString());        
+         
+         p2=a1.multiply(b1);
+         p1=(a0.add(a1).multiply(b0.add(b1)));
+         p0=a0.multiply(b0);
+         aux=p2.add(p0);
+         exp=new BigInteger("10");
+        total=null;
+        total=(p2.multiply(exp.pow(2*k)).add(p1.multiply(exp.pow(k))).subtract(aux.multiply(exp.pow(k))).add(p0)).divide(exp.pow(i1));
+         
+        display.setText("("+s1+ "...)("+s2+"...)  = "+sig+total);
+        System.out.println(sig+"signo");
+         
+    } 
+
+ public void stateChanged(ChangeEvent e){
+        
+        if (check1.isSelected()==true&&check2.isSelected()==true) {
+            sig="  ";
+        }else
+        if (check2.isSelected()==true&&check1.isSelected()==false) {
+            sig=" -- ";
+        }else
+       if (check2.isSelected()==false&&check1.isSelected()==true) {
+            sig=" -- ";
+        }else
+         if (check1.isSelected()==false&&check2.isSelected()==false) {
+            sig="  ";
+        }
+ }
+ 
+ public void actionPerformed(ActionEvent e) {
+        i1=0;i2=0;i3=0;i4=0;n=0;
+        a=null;b=null;a1=null;b1=null;
+        s1=null;s2=null;s3=null;
+     a=new BigInteger(ingreso1.getText());
+     b=new BigInteger(ingreso2.getText());
+  
+     if(a!=null||b!=null){
+       s1=(a.toString());
+       s2=(b.toString());
+        i1=s1.length();
+        i2=s2.length();
+       
+        
+        if(i1<=10&&i2<=10){
+       multsencilla ();
+        }else{
+            multkaratsuba ();
+        }
+    }else{
+            display.setText("Falta número o no esta bien escrito");
+        }
+    }
+}
